@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAG - Seguros Generales</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-tittle-logo">
+        <img src="/imagenes/Logos Aseguradoras/logo-nag.png" class="logo">
+        <h1>NAG - Seguros Generales</h1>
+    </div>
+        <div class="form-container">
+            <label for="aseguradora">Selecciona una aseguradora:</label>
+            <select id="aseguradora">
+                <option value="" disabled selected>Selecciona una aseguradora</option>
+                <option value="galeno">Galeno</option>
+                <option value="rivadavia">Rivadavia</option>
+                <!-- <option value="sancor">Sancor Seguros</option> -->
+                <option value="rus">RUS (Río Uruguay Seguros)</option>
+                <option value="federacion">Federación Patronal</option>
+                <option value="orbis">Orbis</option>
+                <option value="externa">Externa Seguros</option>
+                <!-- <option value="mercantil">Mercantil Andina</option> -->
+            </select>
+
+            <label for="planes">Selecciona un plan de seguro:</label>
+            <select id="planes"></select>
+
+            <label for="precio">Ingresa el precio:</label>
+            <input type="number" id="precio" placeholder="Precio en $"/>
+
+            <label for="nombre-auto">Nombre del Auto:</label>
+            <input type="text" id="nombre-auto" placeholder="Ingresa el nombre del auto"/>
+
+            <button id="add-plan">Agregar plan</button>
+
+            <table id="plan-table">
+                <thead>
+                    <tr>
+                        <th>Aseguradora</th>
+                        <th>Plan</th>
+                        <th>Precio</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <button id="download">Descargar PDF</button>
+            <button id="download-image">Descargar Imagen</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jsPDF Autotable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
