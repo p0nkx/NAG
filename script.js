@@ -27,8 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total por incendio - Perdida total por robo o hurto",
                 "Responsabilidad Civil - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Covertura de cristales laterales o cerraduras exteriores",
                 "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Covertura de cristales laterales o cerraduras exteriores",
-                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto",
-                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Cobertura contra daños por Granizo",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubiertas - Reposicion de cristales laterales o cerraduras + rotura luneta o parabrisas - Grúa 300km",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubiertas - Reposicion de cristales laterales o cerraduras + rotura luneta o parabrisas - Grúa 300km - Cobertura contra daños por Granizo",
                 "",
                 "Seguro Obligatorio"
             ]
