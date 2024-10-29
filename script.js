@@ -20,16 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
             ]
         },
         rivadavia: { 
-            plans: ["A", "F","B","G","C","M","P","MX"], 
+            plans: ["A - RC", "F - RC + Incendio y Robo Total","B - RC + Coverturas Totales","G - RC + Incendio y Robo Total/Parcial","C - Terceros Completo","M - Mega Plan","P - Mega Premium","MX","Seguro Obligatorio"], 
             descriptions: [
+                "Responsabilidad Civil",
+                "Responsabilidad Civil - Daño total por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Covertura de cristales laterales o cerraduras exteriores",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Covertura de cristales laterales o cerraduras exteriores",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Cobertura contra daños por Granizo",
                 "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - ",
-                ""
+                "Seguro Obligatorio"
             ]
         },
         sancor: { 
