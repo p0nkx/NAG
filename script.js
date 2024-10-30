@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const planes = {
         galeno: { 
             plans: [
-                "Responsabilidad Civil Basica",
-                "Responsabilidad Civil Clasica",
-                "Robo e incendio en garage",
-                "Total Basica", "Total Clasica", "Terceros Completa Basica",
-                 "Terceros Completa Clasica","Terceros Completo Platinium"
+                "A2 - Responsabilidad Civil Basica",
+                "A - Responsabilidad Civil Clasica",
+                "E - Robo e incendio en garage",
+                "B1 - Total Basica", "B - Total Clasica", "C1 - Terceros Completa Basica",
+                 "C - Terceros Completa Clasica","C2 - Terceros Completo Platinium"
             ], 
             descriptions: [
                 "Responsabilidad Civil",
@@ -14,9 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Incendio Total - Robo total",
                 "Responsabilidad Civil, indendio total,robo total",
                 "Responsabilidad Civil, daños por accidentes,indendio total,robo total",
-                "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo parcial,rotura cistales laterales, reposicion rueda",
-                "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo total/parcial,rotura cistales laterales, reposicion rueda",
-                "Responsabilidad Civil - daño total x accidente - incendio total/parcial - robo total/parcial - Accidentes personales - rotura cistales laterales, luneta y parabrisas - rotura cerradura - Daños por inundación - reposicion ruedas - Daños por Granizo"
+                "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo parcial,rotura cistales laterales, reposicion cubierta",
+                "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo total/parcial,rotura cistales laterales, reposicion cubierta",
+                "Responsabilidad Civil - daño total x accidente - incendio total/parcial - robo total/parcial - Accidentes personales - rotura cistales laterales, luneta y parabrisas - rotura cerradura - Daños por inundación - reposicion cubiertas - Daños por Granizo"
             ]
         },
         rivadavia: { 

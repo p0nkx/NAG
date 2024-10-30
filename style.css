@@ -1,31 +1,52 @@
+/* General Styles */
 body {
-    background-color: #f0f0f0; /* Color de fondo claro */
+    background-color: #f0f0f0;
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     height: 100vh;
     margin: 0;
+    padding: 10px; /* Añadir padding para dispositivos móviles */
 }
 
 .container {
     text-align: center;
-    width: 100%; /* Permitir que ocupe todo el ancho */
-    max-width: 600px; /* Ancho máximo para el contenedor */
+    width: 100%;
+    max-width: 600px;
+    overflow-y: auto; /* Habilita scroll cuando el contenido supera la altura */
+}
+
+/* Top title and logo */
+.top-tittle-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    display: block;
+    margin-top: 2rem;
+    width: 10rem;
+    max-width: 100%;
 }
 
 h1 {
-    color: #003366; /* Azul oscuro */
+    color: #003366;
+    font-size: 1.5rem;
 }
 
+/* Form Styles */
 .form-container {
-    background-color: #ffffff; /* Fondo blanco para el formulario */
-    border: 2px solid #003366; /* Borde azul oscuro */
+    background-color: #ffffff;
+    border: 2px solid #003366;
     border-radius: 10px;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Incluir bordes y padding en el tamaño total */
-    margin-bottom: 5rem;
+    box-sizing: border-box;
+    margin-bottom: 2rem;
+    overflow-y: auto;
 }
 
 label {
@@ -33,52 +54,67 @@ label {
     margin: 10px 0 5px;
 }
 
-select, input[type="number"], input[type="text"], button {
+select,
+input[type="number"],
+input[type="text"],
+button {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #cccccc; /* Color gris claro */
+    border: 1px solid #cccccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Incluir bordes y padding en el tamaño total */
+    box-sizing: border-box;
 }
 
+/* Table Styles */
 table {
     width: 100%;
     margin-top: 10px;
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #cccccc;
     padding: 8px;
     text-align: center;
+    font-size: 0.9rem;
 }
 
+/* Button Styles */
 button {
-    background-color: #003366; /* Azul oscuro */
+    background-color: #003366;
     color: white;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #005599; /* Color azul más claro al pasar el mouse */
+    background-color: #005599;
 }
 
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.2rem;
+    }
 
+    .form-container {
+        padding: 15px;
+    }
 
-.top-tittle-logo{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.logo {
-    display: block;
-    margin-top: 10rem;
-    
-    
-    width: 15rem; /* Ajuste de tamaño adecuado */
-    
-    max-width: 100%; /* Asegura que no se expanda más allá del contenedor */
+    select,
+    input[type="number"],
+    input[type="text"],
+    button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    th,
+    td {
+        font-size: 0.8rem;
+        padding: 5px;
+    }
 }
