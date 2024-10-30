@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "A - Responsabilidad Civil Clasica",
                 "E - Robo e incendio en garage",
                 "B1 - Total Basica", "B - Total Clasica", "C1 - Terceros Completa Basica",
-                 "C - Terceros Completa Clasica","C2 - Terceros Completo Platinium"
+                 "C - Terceros Completa Clasica","C2 -Terceros Completo Platinium"
             ], 
             descriptions: [
                 "Responsabilidad Civil",
@@ -142,27 +142,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Descargar PDF
-    downloadButton.addEventListener("click", () => {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+    // Descargar PDF con imagen al pie de página
+downloadButton.addEventListener("click", async () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-        const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
-            row.cells[0].textContent,
-            row.cells[1].textContent,
-            row.cells[2].textContent,
-            row.cells[3].textContent // Incluir descripción
-        ]);
+    const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
+        row.cells[0].textContent,
+        row.cells[1].textContent,
+        row.cells[2].textContent,
+        row.cells[3].textContent // Incluir descripción
+    ]);
 
-        doc.autoTable({
-            head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
-            body: rows,
-            theme: 'grid',
-            styles: { halign: 'center' },
-        });
-
-        doc.save("planes_seguros.pdf");
+    doc.autoTable({
+        head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
+        body: rows,
+        theme: 'grid',
+        styles: { halign: 'center' },
     });
+
+    // Cargar y agregar la imagen en la esquina inferior derecha
+    const imagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
+    
+    // Convertir imagen a base64
+    const loadImage = (src) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = reject;
+            img.src = src;
+        });
+    };
+
+    try {
+        const imageData = await loadImage(imagePath);
+
+        // Ajusta el tamaño y posición de la imagen en el PDF
+        const imgWidth = 40; // Ajuste el tamaño de la imagen según necesite
+        const imgHeight = 20;
+        const xPos = doc.internal.pageSize.width - imgWidth - 10; // 10px de margen derecho
+        const yPos = doc.internal.pageSize.height - imgHeight - 10; // 10px de margen inferior
+
+        doc.addImage(imageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
+    } catch (error) {
+        console.error("No se pudo cargar la imagen", error);
+    }
+
+    // Guardar el PDF
+    doc.save("planes_seguros.pdf");
+});
+
 
     // Descargar Imagen
     document.getElementById("download-image").addEventListener("click", () => {
