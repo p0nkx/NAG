@@ -197,7 +197,7 @@ downloadButton.addEventListener("click", async () => {
     }
 
     // Guardar el PDF
-    doc.save("planes_seguros.pdf");
+    doc.save("cotización-estudio-NAG.pdf");
 });
 
 
