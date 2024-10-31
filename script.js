@@ -142,29 +142,71 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Descargar PDF con imagen al pie de página
+//     // Descargar PDF con imagen al pie de página
+// downloadButton.addEventListener("click", async () => {
+//     const { jsPDF } = window.jspdf;
+//     const doc = new jsPDF();
+
+//     const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
+//         row.cells[0].textContent,
+//         row.cells[1].textContent,
+//         row.cells[2].textContent,
+//         row.cells[3].textContent // Incluir descripción
+//     ]);
+
+//     doc.autoTable({
+//         head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
+//         body: rows,
+//         theme: 'grid',
+//         styles: { halign: 'center' },
+//     });
+
+//     // Cargar y agregar la imagen en la esquina inferior derecha
+//     const imagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
+    
+//     // Convertir imagen a base64
+//     const loadImage = (src) => {
+//         return new Promise((resolve, reject) => {
+//             const img = new Image();
+//             img.crossOrigin = 'anonymous';
+//             img.onload = () => {
+//                 const canvas = document.createElement('canvas');
+//                 canvas.width = img.width;
+//                 canvas.height = img.height;
+//                 const ctx = canvas.getContext('2d');
+//                 ctx.drawImage(img, 0, 0);
+//                 resolve(canvas.toDataURL('image/png'));
+//             };
+//             img.onerror = reject;
+//             img.src = src;
+//         });
+//     };
+
+//     try {
+//         const imageData = await loadImage(imagePath);
+
+//         // Ajusta el tamaño y posición de la imagen en el PDF
+//         const imgWidth = 40; // Ajuste el tamaño de la imagen según necesite
+//         const imgHeight = 20;
+//         const xPos = doc.internal.pageSize.width - imgWidth - 10; // 10px de margen derecho
+//         const yPos = doc.internal.pageSize.height - imgHeight - 10; // 10px de margen inferior
+
+//         doc.addImage(imageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
+//     } catch (error) {
+//         console.error("No se pudo cargar la imagen", error);
+//     }
+
+//     // Guardar el PDF
+//     doc.save("planes_seguros.pdf");
+// });
+
+
+// Descargar PDF con título, nombre del auto, encabezado y logo al pie de página
 downloadButton.addEventListener("click", async () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
-        row.cells[0].textContent,
-        row.cells[1].textContent,
-        row.cells[2].textContent,
-        row.cells[3].textContent // Incluir descripción
-    ]);
-
-    doc.autoTable({
-        head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
-        body: rows,
-        theme: 'grid',
-        styles: { halign: 'center' },
-    });
-
-    // Cargar y agregar la imagen en la esquina inferior derecha
-    const imagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
-    
-    // Convertir imagen a base64
+    // Función para cargar una imagen como base64
     const loadImage = (src) => {
         return new Promise((resolve, reject) => {
             const img = new Image();
@@ -182,8 +224,55 @@ downloadButton.addEventListener("click", async () => {
         });
     };
 
+    // Cargar y agregar la imagen de encabezado
+    const headerPath = './imagenes/header.png';
     try {
-        const imageData = await loadImage(imagePath);
+        const headerImageData = await loadImage(headerPath);
+        
+        // Ajustar el tamaño y posición de la imagen de encabezado
+        const headerWidth = doc.internal.pageSize.width - 20; // Dejar margen de 10px a cada lado
+        const headerHeight = 35; // Ajustar altura del header
+        doc.addImage(headerImageData, 'PNG', 10, 10, headerWidth, headerHeight);
+        
+    } catch (error) {
+        console.error("No se pudo cargar la imagen del encabezado", error);
+    }
+
+    // Agregar el título principal debajo del header
+    doc.setFontSize(18);
+    doc.text("Cotización Seguro Automotor", doc.internal.pageSize.width / 2, 55, { align: "center" });
+
+    // Agregar el nombre del auto alineado a la izquierda
+    const nombreAuto = document.getElementById("nombre-auto").value; // Asegúrate de tener un input con id="nombre-auto"
+    doc.setFontSize(12);
+    if (nombreAuto) {
+        doc.text(`${nombreAuto.toUpperCase()}`, 10, 62); // Posiciona el texto en el margen izquierdo
+    }
+
+    // Preparar los datos de la tabla
+    const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
+        row.cells[0].textContent,
+        row.cells[1].textContent,
+        row.cells[2].textContent,
+        row.cells[3].textContent // Incluir descripción
+    ]);
+
+    // Desplazar la tabla hacia abajo para no superponerla con el título y nombre del auto
+    const startY = nombreAuto ? 65 : 60;
+
+    // Generar la tabla en el PDF
+    doc.autoTable({
+        head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
+        body: rows,
+        theme: 'grid',
+        styles: { halign: 'center' },
+        startY: startY
+    });
+
+    // Cargar y agregar la imagen en la esquina inferior derecha
+    const footerImagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
+    try {
+        const footerImageData = await loadImage(footerImagePath);
 
         // Ajusta el tamaño y posición de la imagen en el PDF
         const imgWidth = 40; // Ajuste el tamaño de la imagen según necesite
@@ -191,14 +280,16 @@ downloadButton.addEventListener("click", async () => {
         const xPos = doc.internal.pageSize.width - imgWidth - 10; // 10px de margen derecho
         const yPos = doc.internal.pageSize.height - imgHeight - 10; // 10px de margen inferior
 
-        doc.addImage(imageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
+        doc.addImage(footerImageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
     } catch (error) {
-        console.error("No se pudo cargar la imagen", error);
+        console.error("No se pudo cargar la imagen del pie de página", error);
     }
+
 
     // Guardar el PDF
     doc.save("cotización-estudio-NAG.pdf");
 });
+
 
 
     // Descargar Imagen
