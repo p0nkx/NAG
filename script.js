@@ -89,58 +89,107 @@ document.addEventListener("DOMContentLoaded", () => {
     const planTableBody = document.querySelector("#plan-table tbody");
     const downloadButton = document.getElementById("download");
 
-    // Carga los planes según la aseguradora seleccionada
-    aseguradoraSelect.addEventListener("change", () => {
-        const selectedAseguradora = aseguradoraSelect.value;
-        planesSelect.innerHTML = ""; // Limpiar opciones anteriores
-        if (planes[selectedAseguradora]) {
-            planes[selectedAseguradora].plans.forEach((plan, index) => {
-                const option = document.createElement("option");
-                option.value = plan;
-                option.textContent = plan;
-                option.dataset.description = planes[selectedAseguradora].descriptions[index]; // Agregar la descripción como dato
-                planesSelect.appendChild(option);
-            });
-        }
+   // Carga los planes según la aseguradora seleccionada
+aseguradoraSelect.addEventListener("change", () => {
+    const selectedAseguradora = aseguradoraSelect.value;
+    planesSelect.innerHTML = ""; // Limpiar opciones anteriores
+    if (planes[selectedAseguradora]) {
+        planes[selectedAseguradora].plans.forEach((plan, index) => {
+            const option = document.createElement("option");
+            option.value = plan;
+            option.textContent = plan;
+            option.dataset.description = planes[selectedAseguradora].descriptions[index]; // Agregar la descripción como dato
+            planesSelect.appendChild(option);
+        });
+    }
+});
+
+// Función para agregar la funcionalidad de edición y eliminación
+function addEditDeleteFunctionality(row) {
+    const editButton = row.querySelector(".edit-btn");
+    const deleteButton = row.querySelector(".delete-btn");
+
+    // Función de eliminar
+    deleteButton.addEventListener("click", () => {
+        row.remove();
     });
 
-    // Agrega un plan a la tabla
-    addPlanButton.addEventListener("click", () => {
-        const aseguradora = aseguradoraSelect.options[aseguradoraSelect.selectedIndex].text;
-        const selectedOption = planesSelect.options[planesSelect.selectedIndex];
-        const plan = selectedOption.value;
-        const description = selectedOption.dataset.description; // Obtener la descripción de la opción
-        const precio = precioInput.value;
-
-        if (plan && precio) {
-            const existingRows = Array.from(planTableBody.querySelectorAll("tr"));
-            let added = false;
-
-            // Verificar si ya existe una fila para la aseguradora
-            existingRows.forEach((row) => {
-                if (row.cells[0].textContent === aseguradora) {
-                    // Si existe, añadir una nueva fila debajo con el plan
-                    const newRow = document.createElement("tr");
-                    newRow.innerHTML = `<td></td><td>${plan}</td><td>$${precio}</td><td>${description}</td>`; // Incluir descripción
-                    planTableBody.insertBefore(newRow, row.nextSibling); // Agregar debajo de la fila existente
-                    added = true;
-                }
-            });
-
-            // Si no se ha añadido a la fila existente, se crea una nueva fila
-            if (!added) {
-                const row = document.createElement("tr");
-                row.innerHTML = `<td>${aseguradora}</td><td>${plan}</td><td>$${precio}</td><td>${description}</td>`; // Incluir descripción
-                planTableBody.appendChild(row);
-            }
-
-            // Limpiar campos
-            planesSelect.value = "";
-            precioInput.value = "";
+    // Función de editar
+    editButton.addEventListener("click", () => {
+        if (editButton.textContent === "Editar") {
+            // Cambiar a modo de edición
+            const cells = row.querySelectorAll("td");
+            cells[0].innerHTML = `<input type="text" value="${cells[0].textContent}">`;
+            cells[1].innerHTML = `<input type="text" value="${cells[1].textContent}">`;
+            cells[2].innerHTML = `<input type="number" value="${cells[2].textContent.replace('$', '')}">`;
+            cells[3].innerHTML = `<input type="text" value="${cells[3].textContent}">`;
+            editButton.textContent = "Guardar";
         } else {
-            alert("Por favor, completa todos los campos.");
+            // Guardar cambios
+            const cells = row.querySelectorAll("td");
+            cells[0].textContent = cells[0].querySelector("input").value;
+            cells[1].textContent = cells[1].querySelector("input").value;
+            cells[2].textContent = "$" + cells[2].querySelector("input").value;
+            cells[3].textContent = cells[3].querySelector("input").value;
+            editButton.textContent = "Editar";
         }
     });
+}
+
+// Agrega un plan a la tabla
+addPlanButton.addEventListener("click", () => {
+    const aseguradora = aseguradoraSelect.options[aseguradoraSelect.selectedIndex].text;
+    const selectedOption = planesSelect.options[planesSelect.selectedIndex];
+    const plan = selectedOption.value;
+    const description = selectedOption.dataset.description; // Obtener la descripción de la opción
+    const precio = precioInput.value;
+
+    if (plan && precio) {
+        const existingRows = Array.from(planTableBody.querySelectorAll("tr"));
+        let added = false;
+
+        // Verificar si ya existe una fila para la aseguradora
+        existingRows.forEach((row) => {
+            if (row.cells[0].textContent === aseguradora) {
+                // Si existe, añadir una nueva fila debajo con el plan
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `<td></td><td>${plan}</td><td>$${precio}</td><td>${description}</td>
+                    <td>
+                        <button class="edit-btn">Editar</button>
+                        <button class="delete-btn">Eliminar</button>
+                    </td>`;
+                planTableBody.insertBefore(newRow, row.nextSibling); // Agregar debajo de la fila existente
+                addEditDeleteFunctionality(newRow); // Añadir funcionalidad de edición y eliminación
+                added = true;
+            }
+        });
+
+        // Si no se ha añadido a la fila existente, se crea una nueva fila
+        if (!added) {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${aseguradora}</td><td>${plan}</td><td>$${precio}</td><td>${description}</td>
+                <td>
+                    <button class="edit-btn">Editar</button>
+                    <button class="delete-btn">Eliminar</button>
+                </td>`;
+            planTableBody.appendChild(row);
+            addEditDeleteFunctionality(row); // Añadir funcionalidad de edición y eliminación
+        }
+
+        // Limpiar campos
+        planesSelect.value = "";
+        precioInput.value = "";
+    } else {
+        alert("Por favor, completa todos los campos.");
+    }
+});
+
+
+    
+
+
+
+
 
 //     // Descargar PDF con imagen al pie de página
 // downloadButton.addEventListener("click", async () => {
