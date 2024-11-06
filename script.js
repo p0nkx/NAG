@@ -192,94 +192,30 @@ addPlanButton.addEventListener("click", () => {
 });
 
 
-    
 
-
-
-
-
-//     // Descargar PDF con imagen al pie de página
-// downloadButton.addEventListener("click", async () => {
-//     const { jsPDF } = window.jspdf;
-//     const doc = new jsPDF();
-
-//     const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
-//         row.cells[0].textContent,
-//         row.cells[1].textContent,
-//         row.cells[2].textContent,
-//         row.cells[3].textContent // Incluir descripción
-//     ]);
-
-//     doc.autoTable({
-//         head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
-//         body: rows,
-//         theme: 'grid',
-//         styles: { halign: 'center' },
-//     });
-
-//     // Cargar y agregar la imagen en la esquina inferior derecha
-//     const imagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
-    
-//     // Convertir imagen a base64
-//     const loadImage = (src) => {
-//         return new Promise((resolve, reject) => {
-//             const img = new Image();
-//             img.crossOrigin = 'anonymous';
-//             img.onload = () => {
-//                 const canvas = document.createElement('canvas');
-//                 canvas.width = img.width;
-//                 canvas.height = img.height;
-//                 const ctx = canvas.getContext('2d');
-//                 ctx.drawImage(img, 0, 0);
-//                 resolve(canvas.toDataURL('image/png'));
-//             };
-//             img.onerror = reject;
-//             img.src = src;
-//         });
-//     };
-
-//     try {
-//         const imageData = await loadImage(imagePath);
-
-//         // Ajusta el tamaño y posición de la imagen en el PDF
-//         const imgWidth = 40; // Ajuste el tamaño de la imagen según necesite
-//         const imgHeight = 20;
-//         const xPos = doc.internal.pageSize.width - imgWidth - 10; // 10px de margen derecho
-//         const yPos = doc.internal.pageSize.height - imgHeight - 10; // 10px de margen inferior
-
-//         doc.addImage(imageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
-//     } catch (error) {
-//         console.error("No se pudo cargar la imagen", error);
-//     }
-
-//     // Guardar el PDF
-//     doc.save("planes_seguros.pdf");
-// });
-
-
-// Descargar PDF con título, nombre del auto, encabezado y logo al pie de página
+// Descargar PDF optimizado
 downloadButton.addEventListener("click", async () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Función para cargar una imagen como base64
+    // Función para cargar una imagen optimizada
     const loadImage = (src) => {
         return new Promise((resolve, reject) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = () => {
                 const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
                 const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0);
-                resolve(canvas.toDataURL('image/png'));
+                // Establecer dimensiones optimizadas
+                canvas.width = img.width * 0.5; // Reducir resolución al 50%
+                canvas.height = img.height * 0.5;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/jpeg', 0.5)); // JPEG a 50% calidad
             };
             img.onerror = reject;
             img.src = src;
         });
     };
-
     // Cargar y agregar la imagen de encabezado
     const headerPath = './imagenes/header.png';
     try {
@@ -316,45 +252,93 @@ downloadButton.addEventListener("click", async () => {
     // Desplazar la tabla hacia abajo para no superponerla con el título y nombre del auto
     const startY = nombreAuto ? 65 : 60;
 
-    // Generar la tabla en el PDF
+    // Optimización en la tabla
     doc.autoTable({
         head: [['Aseguradora', 'Plan', 'Precio', 'Descripción']],
         body: rows,
         theme: 'grid',
-        styles: { halign: 'center' },
+        styles: { fontSize: 8, cellPadding: 2 }, // Reducir tamaño de fuente y espaciado
         startY: startY
     });
 
-    // Cargar y agregar la imagen en la esquina inferior derecha
-    const footerImagePath = './imagenes/Logos Aseguradoras/logo-nag.png';
-    try {
-        const footerImageData = await loadImage(footerImagePath);
-
-        // Ajusta el tamaño y posición de la imagen en el PDF
-        const imgWidth = 40; // Ajuste el tamaño de la imagen según necesite
-        const imgHeight = 20;
-        const xPos = doc.internal.pageSize.width - imgWidth - 10; // 10px de margen derecho
-        const yPos = doc.internal.pageSize.height - imgHeight - 10; // 10px de margen inferior
-
-        doc.addImage(footerImageData, 'PNG', xPos, yPos, imgWidth, imgHeight);
-    } catch (error) {
-        console.error("No se pudo cargar la imagen del pie de página", error);
-    }
-
-
-    // Guardar el PDF
-    doc.save("cotización-estudio-NAG.pdf");
+    // Guardar PDF comprimido
+    doc.save("cotizacion_estudio_NAG.pdf", { compress: true });
 });
 
 
+    // // Descargar Imagen
+    // document.getElementById("download-image").addEventListener("click", () => {
+        
+    //     html2canvas(document.getElementById("plan-table")).then(canvas => {
+    //         const link = document.createElement("a");
+    //         link.href = canvas.toDataURL("image/png");
+    //         link.download = "tabla_planes.png";
+    //         link.click();
+    //     });
+    // });
 
-    // Descargar Imagen
-    document.getElementById("download-image").addEventListener("click", () => {
-        html2canvas(document.getElementById("plan-table")).then(canvas => {
+
+    
+    document.getElementById("download-image").addEventListener("click", async () => {
+        try {
+            // Cargar la imagen de encabezado
+            const headerImage = new Image();
+            headerImage.src = './imagenes/header.png';
+            
+            // Esperar a que la imagen de encabezado esté completamente cargada
+            await new Promise((resolve, reject) => {
+                headerImage.onload = resolve;
+                headerImage.onerror = () => reject("No se pudo cargar la imagen de encabezado.");
+            });
+    
+            // Capturar la tabla usando html2canvas
+            const tableCanvas = await html2canvas(document.getElementById("plan-table"));
+    
+            // Obtener el valor del input para el modelo del auto
+            const modeloAuto = document.getElementById("nombre-auto").value;
+    
+            // Configuración para hoja A4 en píxeles (a 72 DPI)
+            const A4_WIDTH = 595;
+            const A4_HEIGHT = 842;
+    
+            // Crear un canvas final para combinar todos los elementos
+            const finalCanvas = document.createElement("canvas");
+            finalCanvas.width = A4_WIDTH;
+            finalCanvas.height = A4_HEIGHT;
+    
+            const ctx = finalCanvas.getContext("2d");
+    
+            // Escalar la imagen de encabezado para que ocupe todo el ancho A4
+            const headerScaledHeight = A4_WIDTH * (headerImage.height / headerImage.width);
+            ctx.drawImage(headerImage, 0, 0, A4_WIDTH, headerScaledHeight);
+    
+            // Agregar el título principal
+            ctx.font = "bold 16px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Cotización Seguro Automotor", A4_WIDTH / 2, headerScaledHeight + 20);
+    
+            // Agregar el texto del modelo del auto
+            ctx.font = "14px Arial";
+            ctx.textAlign = "left";
+            ctx.fillText(`Modelo del auto: ${modeloAuto}`, 10, headerScaledHeight + 40);
+    
+            // Calcular la posición para la tabla
+            const tableStartY = headerScaledHeight + 60;
+    
+            // Escalar la tabla para que no pierda su tamaño original
+            ctx.drawImage(tableCanvas, 0, tableStartY, A4_WIDTH, tableCanvas.height);
+    
+            // Descargar la imagen final
             const link = document.createElement("a");
-            link.href = canvas.toDataURL("image/png");
-            link.download = "tabla_planes.png";
+            link.href = finalCanvas.toDataURL("image/png");
+            link.download = "cotizacion_completa.png";
             link.click();
-        });
+    
+        } catch (error) {
+            console.error("Error al generar la imagen:", error);
+            alert("Hubo un problema al generar la imagen. Por favor, revisa la consola para más detalles.");
+        }
     });
+    
+    
 });
