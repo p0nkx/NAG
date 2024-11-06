@@ -41,10 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
             ]
         },
         rus: { 
-            plans: ["Plan Río", "Plan Uruguay"], 
+            plans: ["S-Sigma", "S-STD-Sigma Standart", "C1-80", "C2-80", "B-80", "B1-80", "B2","RCA"], 
             descriptions: [
-                "Descripción del Plan Río: Atención médica integral y servicios de urgencias.",
-                "Descripción del Plan Uruguay: Consultas médicas y cobertura en viajes."
+                "Responsabilidad Civil - Perdida total por daños - Perdida total y parcial por incendio - Perdida total y parcial por robo o hurto - Rotura de cristales laterales, parabrisas, luneta y cristales de techo - rotura de cerraduras exteriores - Reposicion Cubierta - Granizo ",
+                "Responsabilidad Civil - Perdida total por daños - Perdida total y parcial por incendio - Perdida total y parcial por robo o hurto - Rotura de cristales laterales, parabrisas, luneta y cristales de techo - rotura de cerraduras exteriores - Reposicion Cubierta",
+                "Responsabilidad Civil - Perdida total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubierta",
+                "Responsabilidad Civil - Perdida total y parcial por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Perdida total por daños - Perdida total por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Perdida total por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Perdida total y parcial por incendio - Perdida total por robo o hurto",
+                "Responsabilidad Civil - Perdida total por robo o hurto",
+                "Responsabilidad Civil"
             ]
         },
         federacion: { 
