@@ -233,6 +233,15 @@ downloadButton.addEventListener("click", async () => {
     // Agregar el título principal debajo del header
     doc.setFontSize(18);
     doc.text("Cotización Seguro Automotor", doc.internal.pageSize.width / 2, 55, { align: "center" });
+    
+    
+    // Obtener la fecha actual en formato deseado (por ejemplo, DD/MM/YYYY)
+    const fechaActual = new Date();
+    const fechaFormateada = `${fechaActual.getDate().toString().padStart(2, '0')}/${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}/${fechaActual.getFullYear()}`;
+
+    // Agregar el texto "Cotización válida por 3 días desde [fecha actual]" debajo del encabezado
+    doc.setFontSize(8);
+    doc.text(`Cotización válida por 3 días desde: ${fechaFormateada}`, 10, 7, { align: "left" });
 
     // Agregar el nombre del auto alineado a la izquierda
     const nombreAuto = document.getElementById("nombre-auto").value; // Asegúrate de tener un input con id="nombre-auto"
