@@ -5,8 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 "A2 - Responsabilidad Civil Basica",
                 "A - Responsabilidad Civil Clasica",
                 "E - Robo e incendio en garage",
-                "B1 - Total Basica", "B - Total Clasica", "C1 - Terceros Completa Basica",
-                 "C - Terceros Completa Clasica","C2 -Terceros Completo Platinium"
+                "B1 - Total Basica", 
+                "B - Total Clasica",
+                 "C1 - Terceros Completa Basica",
+                 "C - Terceros Completa Clasica",
+                 "C2 -Terceros Completo Platinium"
             ], 
             descriptions: [
                 "Responsabilidad Civil",
@@ -14,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Incendio Total - Robo total",
                 "Responsabilidad Civil, indendio total,robo total",
                 "Responsabilidad Civil, daños por accidentes,indendio total,robo total",
-                "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo parcial,rotura cistales laterales, reposicion cubierta",
+                "Responsabilidad Civil, incendio total/parcial,robo total/parcial,rotura cistales laterales, reposicion cubierta",
                 "Responsabilidad Civil, daño total x accidente,incendio total/parcial,robo total/parcial,rotura cistales laterales, reposicion cubierta",
                 "Responsabilidad Civil - daño total x accidente - incendio total/parcial - robo total/parcial - Accidentes personales - rotura cistales laterales, luneta y parabrisas - rotura cerradura - Daños por inundación - reposicion cubiertas - Daños por Granizo"
             ]
@@ -29,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Covertura de cristales laterales o cerraduras exteriores",
                 "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubiertas - Reposicion de cristales laterales o cerraduras + rotura luneta o parabrisas - Grúa 300km",
                 "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubiertas - Reposicion de cristales laterales o cerraduras + rotura luneta o parabrisas - Grúa 300km - Cobertura contra daños por Granizo",
-                "",
+                "Responsabilidad Civil - Daño total de la unidad por accidente(Destrucción total) - Daño total y parcial por incendio - Perdida total y parcial por robo o hurto - Reposicion Cubiertas - Reposicion de cristales laterales o cerraduras + rotura luneta o parabrisas (Sin limites hasta las suma asegurada del vehiculo)- Grúa 300km - Cobertura contra daños por Granizo(Sin limites hasta las suma asegurada del vehiculo) ",
                 "Seguro Obligatorio"
             ]
         },
@@ -254,7 +257,7 @@ downloadButton.addEventListener("click", async () => {
     const rows = Array.from(planTableBody.querySelectorAll("tr")).map(row => [
         row.cells[0].textContent,
         row.cells[1].textContent,
-        row.cells[2].textContent,
+        { content: row.cells[2].textContent, styles: { fontStyle: 'bold', fontSize: 15 } }, // ** Precio con estilo **
         row.cells[3].textContent // Incluir descripción
     ]);
 
@@ -267,7 +270,11 @@ downloadButton.addEventListener("click", async () => {
         body: rows,
         theme: 'grid',
         styles: { fontSize: 8, cellPadding: 2 }, // Reducir tamaño de fuente y espaciado
-        startY: startY
+        startY: startY,
+        columnStyles: {
+            2: { fontStyle: 'bold', fontSize: 15 } // Columna "Precio" en negrita y con tamaño de fuente 15
+        }
+        
     });
 
     // Guardar PDF comprimido
